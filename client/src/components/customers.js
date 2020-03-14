@@ -10,7 +10,7 @@ class Customers extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/customers')
+    fetch('/api/bitcoin')
       .then(res => res.json())
       .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
   }
