@@ -30,8 +30,8 @@ class Customers extends Component {
     let currency = document.getElementById('newCurrencyHolder').value;
     fetch('/api/bitcoin?currency='+currency).then(res => res.json()).then(function(data){
       var li = document.createElement("li");
-      li.appendChild(document.createTextNode(currency+' '+data));
-      document.getElementById('currencyData').appendChild(li);
+      li.prepend(document.createTextNode(currency+' '+data));
+      document.getElementById('currencyData').prepend(li);
     })
   }
 
