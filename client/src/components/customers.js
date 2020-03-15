@@ -28,7 +28,11 @@ class Customers extends Component {
   handleSubmit(event,template){
     event.preventDefault();
     let currency = document.getElementById('newCurrencyHolder').value;
-    fetch('/api/bitcoin?currency='+currency).then(res => {console.log(res.json())})
+    fetch('/api/bitcoin?currency='+currency).then(res => res.json()).then(function(data){
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(data));
+      document.getElementById('currencyData').appendChild(li);
+    })
   }
 
   render() {
@@ -40,7 +44,7 @@ class Customers extends Component {
                  defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
           <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
         </form>
-        <ul>
+        <ul id={"currencyData"}>
         </ul>
       </div>
     );
