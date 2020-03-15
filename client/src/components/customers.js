@@ -1,28 +1,46 @@
 import React, { Component } from 'react';
 import './customers.css';
+import ReactDom from 'react-dom'
 
 class Customers extends Component {
   constructor() {
     super();
     this.state = {
-      customers: []
+      currencyData: []
     };
   }
 
   componentDidMount() {
-    fetch('/api/bitcoin')
-      .then(res => res.json())
-      .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
+  }
+
+  updateSubmitButton(event){
+    let currency = event.target.value
+    if(currency.length === 3 && currency.match(/^[A-Za-z]+$/)){
+      document.getElementById('newCurrencySubmitButton').removeAttribute('disabled')
+    }else{
+      document.getElementById('newCurrencySubmitButton').setAttribute('disabled', 'true')
+    }
+  }
+
+  /*
+  * Function to handle submission of new message
+  */
+  handleSubmit(event,template){
+    event.preventDefault();
+    let currency = document.getElementById('newCurrencyHolder').value;
+    fetch('/api/bitcoin?currency='+currency).then(res => {console.log(res.json())})
   }
 
   render() {
     return (
       <div>
-        <h2>Customers</h2>
+        <h2>Enter your currency</h2>
+        <form onSubmit={this.handleSubmit} id="chatBar">
+          <input className="chatbar-message" placeholder="Type a currency and click submit"
+                 defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
+          <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
+        </form>
         <ul>
-        {this.state.customers.map(customer => 
-          <li key={customer.id}>{customer.firstName} {customer.lastName}</li>
-        )}
         </ul>
       </div>
     );
