@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './customers.css';
+import './currency_index.css';
 import $ from 'jquery';
 
-class Customers extends Component {
+class Currency_index extends Component {
   constructor() {
     super();
     this.state = {
@@ -68,4 +68,4 @@ class Customers extends Component {
   }
 }
 
-export default Customers;
+export default Currency_index;
