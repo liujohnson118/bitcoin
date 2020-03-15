@@ -8,7 +8,7 @@ app.get('/api/bitcoin', (req, res) => {
     if (body[req.query.currency]){
       res.send(body[req.query.currency]['30d']);
     }else{
-      res.status(404).send('Error: currency not found')
+      res.status(404).send({error: 'currency not found'})
     }
   });
 });
