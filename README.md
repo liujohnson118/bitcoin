@@ -26,13 +26,15 @@ npm run client
 
 # Server runs on http://localhost:5000 and client on http://localhost:3000
 ```
+### Author
+Johnson Liu
 
 ## App Info
+The boilerplate of this project is a fork from https://github.com/bradtraversy/react_express_starter by Brad Traversy. Front end and backend content were modified. 
 
-### Author
+Navigate to http://localhost:3000/. 
 
-Brad Traversy
-[Traversy Media](http://www.traversymedia.com)
+Type the 3 letter abbreviation of the currency in capital letters and click "Submit". Unless the input is 3 characters long and contains only capital letters, the "Submit" button will be disabled. If a 30-day average matching the currency is found, it will be prepended to the list below. If there is not a match, a warning message will flash for 3 seconds. If the value for the currency has already been fetched, a warning message will flash for 3 seconds and the existing entry will be highlighted in yellow for 2 seconds. No more entry will be added and the request to the backend API `/api/bitcoin` will not be made. 
 
 ### Version
 
