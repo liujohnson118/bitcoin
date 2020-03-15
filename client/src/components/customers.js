@@ -27,21 +27,20 @@ class Customers extends Component {
     event.preventDefault();
     let currency = document.getElementById('new-currency-holder').value;
     if(this.state.currencies.includes(currency)){
-      document.getElementById('warning-message').innerText = currency + ' has already been fetched.'
+      $('#warning-message').text(`${currency} has already been fetched.`)
       return;
     }
     fetch('/api/bitcoin?currency='+currency).then(function(res){
-      console.log(res)
       return res.json();
-    }).then(function(data){
+    }).then(function(data){;
       if(typeof(data) === 'number'){
         $('#currency-data').prepend(`<li>${currency} ${data}</li>`);
-        $('#warning-message').innerText = '';
+        $('#warning-message').text('');
         this.setState({currencies: [...this.state.currencies, currency]})
       }else if(data['error']){
-        $('#warning-message').innerText = 'fuck';
+        $('#warning-message').text(data['error']);
       }else{
-        $('#warning-message').innerText = 'Unknown error occurred.'
+        $('#warning-message').text('Unknown error occurred.')
       }
     }.bind(this))
   };
