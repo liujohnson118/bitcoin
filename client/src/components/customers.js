@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
+import $ from 'jquery';
 
 class Customers extends Component {
   constructor() {
@@ -13,9 +14,9 @@ class Customers extends Component {
   updateSubmitButton(event){
     let currency = event.target.value
     if(currency.length === 3 && currency.match(/^[A-Z]+$/)){
-      document.getElementById('newCurrencySubmitButton').removeAttribute('disabled')
+      document.getElementById('new-currency-submit-button').removeAttribute('disabled')
     }else{
-      document.getElementById('newCurrencySubmitButton').setAttribute('disabled', 'true')
+      document.getElementById('new-currency-submit-button').setAttribute('disabled', 'true')
     }
   }
 
@@ -24,24 +25,23 @@ class Customers extends Component {
   */
   handleSubmit(event){
     event.preventDefault();
-    let currency = document.getElementById('newCurrencyHolder').value;
+    let currency = document.getElementById('new-currency-holder').value;
     if(this.state.currencies.includes(currency)){
-      document.getElementById('warningMessage').innerText = currency + ' has already been fetched.'
+      document.getElementById('warning-message').innerText = currency + ' has already been fetched.'
       return;
     }
     fetch('/api/bitcoin?currency='+currency).then(function(res){
+      console.log(res)
       return res.json();
     }).then(function(data){
       if(typeof(data) === 'number'){
-        var li = document.createElement("li");
-        li.prepend(document.createTextNode(currency+' '+data));
-        document.getElementById('currencyData').prepend(li);
-        document.getElementById('warningMessage').innerText = '';
+        $('#currency-data').prepend(`<li>${currency} ${data}</li>`);
+        $('#warning-message').innerText = '';
         this.setState({currencies: [...this.state.currencies, currency]})
       }else if(data['error']){
-        document.getElementById('warningMessage').innerText = data['error'];
+        $('#warning-message').innerText = 'fuck';
       }else{
-        document.getElementById('warningMessage').innerText = 'Unknown error occurred.'
+        $('#warning-message').innerText = 'Unknown error occurred.'
       }
     }.bind(this))
   };
@@ -50,15 +50,15 @@ class Customers extends Component {
   render() {
     return (
       <div>
-        <h2 id={'warningMessage'} className={'red'}></h2>
-        <form onSubmit={this.handleSubmit} id="chatBar">
+        <h2 id={'warning-message'} className={'red'}></h2>
+        <form onSubmit={this.handleSubmit} id="new-currency-request-form">
           <label>Currency Abbreviation Using Capital Letters</label>
           <br></br>
-          <input className="currencyValue" placeholder="Currency" maxlength={3}
-                 defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
-          <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
+          <input className="currency-value" placeholder="Currency" maxlength={3}
+                 defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="new-currency-holder" />
+          <input type="submit" value="submit" id="new-currency-submit-button" disabled={true}/>
         </form>
-        <ul id={"currencyData"}>
+        <ul id={"currency-data"}>
         </ul>
       </div>
     );
