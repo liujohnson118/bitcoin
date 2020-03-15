@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import './customers.css';
-import ReactDom from 'react-dom'
 
 class Customers extends Component {
   constructor() {
     super();
+    this.state = {
+      currencies: []
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  componentDidMount() {
-  }
-
+  
   updateSubmitButton(event){
     let currency = event.target.value
     if(currency.length === 3 && currency.match(/^[A-Z]+$/)){
@@ -22,20 +22,35 @@ class Customers extends Component {
   /*
   * Function to handle submission of new message
   */
-  handleSubmit(event,template){
+  handleSubmit(event){
     event.preventDefault();
     let currency = document.getElementById('newCurrencyHolder').value;
-    fetch('/api/bitcoin?currency='+currency).then(res => res.json()).then(function(data){
-      var li = document.createElement("li");
-      li.prepend(document.createTextNode(currency+' '+data));
-      document.getElementById('currencyData').prepend(li);
-    })
-  }
+    if(this.state.currencies.includes(currency)){
+      document.getElementById('warningMessage').innerText = currency + ' has already been fetched.'
+      return;
+    }
+    fetch('/api/bitcoin?currency='+currency).then(function(res){
+      return res.json();
+    }).then(function(data){
+      if(typeof(data) === 'number'){
+        var li = document.createElement("li");
+        li.prepend(document.createTextNode(currency+' '+data));
+        document.getElementById('currencyData').prepend(li);
+        document.getElementById('warningMessage').innerText = '';
+        this.setState({currencies: [...this.state.currencies, currency]})
+      }else if(data['error']){
+        document.getElementById('warningMessage').innerText = data['error'];
+      }else{
+        document.getElementById('warningMessage').innerText = 'Unknown error occurred.'
+      }
+    }.bind(this))
+  };
+
 
   render() {
     return (
       <div>
-        <h2 id={'warning'}></h2>
+        <h2 id={'warningMessage'} className={'red'}></h2>
         <form onSubmit={this.handleSubmit} id="chatBar">
           <label>Currency Abbreviation Using Capital Letters</label>
           <br></br>
