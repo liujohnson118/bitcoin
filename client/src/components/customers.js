@@ -9,7 +9,7 @@ class Customers extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   updateSubmitButton(event){
     let currency = event.target.value
     if(currency.length === 3 && currency.match(/^[A-Z]+$/)){
@@ -54,7 +54,7 @@ class Customers extends Component {
         <form onSubmit={this.handleSubmit} id="chatBar">
           <label>Currency Abbreviation Using Capital Letters</label>
           <br></br>
-          <input className="currencyValue" placeholder="Currency"
+          <input className="currencyValue" placeholder="Currency" maxlength={3}
                  defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
           <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
         </form>
