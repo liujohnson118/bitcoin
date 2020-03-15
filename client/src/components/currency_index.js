@@ -9,6 +9,7 @@ class Currency_index extends Component {
       currencies: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.flashWarning = this.flashWarning.bind(this);
   }
 
   updateSubmitButton(event){
@@ -21,13 +22,23 @@ class Currency_index extends Component {
   }
 
   /*
+  * Function to flash warning
+  */
+  flashWarning(warningMessage){
+    $('#warning-message').text(warningMessage);
+    setTimeout(function(){
+      $('#warning-message').text('');
+    }, 3000);
+  }
+
+  /*
   * Function to handle submission of new message
   */
   handleSubmit(event){
     event.preventDefault();
     let currency = document.getElementById('new-currency-holder').value;
     if(this.state.currencies.includes(currency)){
-      $('#warning-message').text(`${currency} has already been fetched.`);
+      this.flashWarning(`${currency} has already been fetched.`);
       $(`li[currency-name="${currency}"]`).addClass('highlighted');
       setTimeout(function () {
         $(`li[currency-name="${currency}"]`).removeClass('highlighted');
@@ -40,13 +51,15 @@ class Currency_index extends Component {
       if(typeof(data) === 'number'){
         $('#currency-data').prepend(`<li currency-name="${currency}">${currency} ${data}</li>`);
         $('#warning-message').text('');
-        this.setState({currencies: [...this.state.currencies, currency]})
+        this.setState({currencies: [...this.state.currencies, currency]});
+        document.getElementById('new-currency-holder').value = '';
       }else if(data['error']){
-        $('#warning-message').text(data['error']);
+        this.flashWarning(data['error']);
       }else{
-        $('#warning-message').text('Unknown error occurred.')
+        this.flashWarning('Unkown error occurred.')
       }
-    }.bind(this))
+    }.bind(this));
+    $('#new-currency-holder').innerText= ''
   };
 
 
