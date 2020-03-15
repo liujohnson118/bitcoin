@@ -35,11 +35,11 @@ class Customers extends Component {
   render() {
     return (
       <div>
-        <h2>Enter your currency</h2>
+        <h2 id={'warning'}></h2>
         <form onSubmit={this.handleSubmit} id="chatBar">
           <label>Currency Abbreviation Using Capital Letters</label>
           <br></br>
-          <input className="chatbar-message" placeholder="Currency"
+          <input className="currencyValue" placeholder="Currency"
                  defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
           <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
         </form>
