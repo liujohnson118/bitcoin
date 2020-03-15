@@ -14,3 +14,7 @@ li{
 #warning-message{
   color: red;
 }
+
+.highlighted{
+  background-color: yellow;
+}
