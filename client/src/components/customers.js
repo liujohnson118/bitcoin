@@ -5,9 +5,6 @@ import ReactDom from 'react-dom'
 class Customers extends Component {
   constructor() {
     super();
-    this.state = {
-      currencyData: []
-    };
   }
 
   componentDidMount() {
@@ -15,7 +12,7 @@ class Customers extends Component {
 
   updateSubmitButton(event){
     let currency = event.target.value
-    if(currency.length === 3 && currency.match(/^[A-Za-z]+$/)){
+    if(currency.length === 3 && currency.match(/^[A-Z]+$/)){
       document.getElementById('newCurrencySubmitButton').removeAttribute('disabled')
     }else{
       document.getElementById('newCurrencySubmitButton').setAttribute('disabled', 'true')
@@ -40,7 +37,9 @@ class Customers extends Component {
       <div>
         <h2>Enter your currency</h2>
         <form onSubmit={this.handleSubmit} id="chatBar">
-          <input className="chatbar-message" placeholder="Type a currency and click submit"
+          <label>Currency Abbreviation Using Capital Letters</label>
+          <br></br>
+          <input className="chatbar-message" placeholder="Currency"
                  defaultValue={""} onChange={this.updateSubmitButton} ref="form" id="newCurrencyHolder" />
           <input type="submit" value="submit" id="newCurrencySubmitButton" disabled={true}/>
         </form>
